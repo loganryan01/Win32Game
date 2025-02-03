@@ -1,5 +1,7 @@
 #include "game.h"
 
+#include "renderer.h"
+
 namespace dewcin
 {
 	Game::Game()
@@ -43,7 +45,10 @@ namespace dewcin
 				PAINTSTRUCT paint;
 				HDC device_context = BeginPaint(windowHandle, &paint);
 
-				FillRect(device_context, &paint.rcPaint, (HBRUSH)(COLOR_WINDOW + 2));
+				int width, height;
+				Renderer::getWindowDimensions(&width, &height);
+
+				Renderer::CopyBufferToWindow(device_context, width, height);
 
 				EndPaint(windowHandle, &paint);
 			}
@@ -58,6 +63,8 @@ namespace dewcin
 
 	void Game::StartWindow()
 	{
+		Renderer::ResizeFrameBuffer(windowWidth, windowHeight);
+		
 		const wchar_t* className = L"dewcin_window";
 
 		WNDCLASS windowClass = {};
@@ -97,6 +104,8 @@ namespace dewcin
 		OutputDebugString(L"GAME INIT\n");
 		running = true;
 
+		Renderer::setWindowHandle(windowHandle);
+
 		// Init the clock
 		LARGE_INTEGER cpu_frequency;
 		QueryPerformanceFrequency(&cpu_frequency);
@@ -128,7 +137,18 @@ namespace dewcin
 
 			// Update & render
 
+			Renderer::Clear();
+
 			getInstance().update(delta);
+
+			HDC deviceContext = GetDC(windowHandle);
+
+			int width, height;
+			Renderer::getWindowDimensions(&width, &height);
+
+			Renderer::CopyBufferToWindow(deviceContext, width, height);
+
+			ReleaseDC(windowHandle, deviceContext);
 		}
 	}
 }
