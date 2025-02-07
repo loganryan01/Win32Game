@@ -2,6 +2,8 @@
 
 #include "renderer.h"
 
+#include "input.h"
+
 namespace dewcin
 {
 	Game::Game()
@@ -35,6 +37,20 @@ namespace dewcin
 			{
 				Game::getInstance().running = false;
 				OutputDebugString(L"window destroy\n");
+			}
+			break;
+
+			case WM_SYSKEYDOWN:
+			case WM_SYSKEYUP:
+			case WM_KEYDOWN:
+			case WM_KEYUP:
+			{
+				auto VKCode = static_cast<uint32_t>(wParam);
+
+				bool wasDown = (lParam & (1 << 30)) != 0;
+				bool isDown = (lParam & (1 << 31)) == 0;
+
+				Input::ProcessKeyboardInput(VKCode, wasDown, isDown);
 			}
 			break;
 
