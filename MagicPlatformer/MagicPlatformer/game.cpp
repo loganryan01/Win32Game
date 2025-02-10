@@ -54,6 +54,25 @@ namespace dewcin
 			}
 			break;
 
+			case WM_LBUTTONDOWN:
+			case WM_LBUTTONUP:
+			case WM_RBUTTONDOWN:
+			case WM_RBUTTONUP:
+			case WM_MBUTTONDOWN:
+			case WM_MBUTTONUP:
+			case WM_XBUTTONDOWN:
+			case WM_XBUTTONUP:
+			{
+				Input::ProcessMouseInput(wParam, lParam);
+			}
+			break;
+
+			case WM_MOUSEMOVE:
+			{
+				Input::UpdateMousePosition(lParam);
+			}
+			break;
+
 			case WM_PAINT:
 			{
 				OutputDebugString(L"window paint\n");

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+#include <windowsx.h>
 
 #include <stdint.h>
 #include <array>
@@ -63,6 +64,14 @@
 #define DC_BACKSPACE 50
 #define DC_TILDE     51
 
+#define DC_MAX_MOUSE_BUTTONS 5
+
+#define DC_MOUSE_LEFT   0
+#define DC_MOUSE_RIGHT  1
+#define DC_MOUSE_MIDDLE 2
+#define DC_MOUSE_X1     3
+#define DC_MOUSE_X2     4
+
 namespace dewcin
 {
 	class Input
@@ -85,8 +94,25 @@ namespace dewcin
 			std::array<KeyState, DC_MAX_KEYS> keys;
 		};
 
+		struct ButtonState
+		{
+			bool wasDown, isDown;
+		};
+
+		struct Position
+		{
+			int x, y;
+		};
+
+		struct MouseInputMap
+		{
+			std::array<ButtonState, DC_MAX_MOUSE_BUTTONS> buttons;
+			Position position;
+		};
+
 	private:
 		static KeyboardInputMap keyboard;
+		static MouseInputMap mouse;
 
 	public:
 		static KeyState getKeyState(uint32_t keycode);
@@ -98,7 +124,21 @@ namespace dewcin
 		// returns true if the key has just been pressed
 		static bool WasKeyHit(uint32_t keycode);
 
+
+		static Position getMousePosition();
+
+		static bool IsMouseButtonPressed(unsigned int buttonCode);
+
+		static bool IsMouseButtonReleased(unsigned int buttonCode);
+
+		// returns true if the mouse button has just been pressed
+		static bool WasMouseButtonHit(unsigned int buttonCode);
+
 	private:
 		static void ProcessKeyboardInput(uint32_t VKcode, bool wasDown, bool isDown);
+
+		static void ProcessMouseInput(WPARAM wParam, LPARAM lParam);
+
+		static void UpdateMousePosition(LPARAM lParam);
 	};
 }

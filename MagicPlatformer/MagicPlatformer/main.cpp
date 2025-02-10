@@ -20,6 +20,13 @@ void GameUpdate(float delta)
 		x -= 10;
 	else if (dewcin::Input::IsKeyPressed(DC_RIGHT))
 		x += 10;
+
+	if (dewcin::Input::IsMouseButtonPressed(DC_MOUSE_MIDDLE))
+		OutputDebugString(L"mouse middle button is pressed!\n");
+
+	dewcin::Input::Position mousePosition = dewcin::Input::getMousePosition();
+	charBuffer = std::to_wstring(mousePosition.x) + L", " + std::to_wstring(mousePosition.y) + L"\n";
+	OutputDebugString(charBuffer.c_str());
 }
 
 dewcin_app_entry_point
