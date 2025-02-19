@@ -20,6 +20,14 @@ void GameUpdate(float delta)
 	}
 
 	dewcin::Renderer::SetPixel(10, 10, { 0, 0, 255 });
+
+	dewcin::Renderer::DrawRectangle({ 800, 450, 120, 100 }, { 0, 0, 255 });
+
+	dewcin::Renderer::DrawLine(40, 100, 240, 300, { 0, 255, 0 });
+
+	dewcin::Renderer::FillCircle(50, 500, 500, { 255, 255, 255 });
+
+	dewcin::Renderer::DrawCircle(80, 100, 100, { 255, 0, 0 });
 	
 	dewcin::Renderer::FillRectangle({ int(x + 0.5f), int(y + 0.5f), 320, 180 }, { 0, 255, 0 });
 
@@ -32,6 +40,10 @@ void GameUpdate(float delta)
 		x -= 100.0f * delta;
 	else if (dewcin::Input::IsKeyPressed(DC_D))
 		x += 100.0f * delta;
+
+	dewcin::Input::Position mousePosition = dewcin::Input::getMousePosition();
+	std::wstring charBuffer = std::to_wstring(mousePosition.x) + L", " + std::to_wstring(mousePosition.y) + L"\n";
+	OutputDebugString(charBuffer.c_str());
 }
 
 dewcin_app_entry_point

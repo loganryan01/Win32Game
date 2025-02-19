@@ -49,6 +49,14 @@ namespace dewcin
 
 		static void FillRectangle(const Rect& rect, const RGBColor& color);
 
+		static void DrawRectangle(const Rect& rect, const RGBColor& color);
+
+		static void DrawLine(int x0, int y0, int x1, int y1, const RGBColor& color);
+
+		static void DrawCircle(int radius, int originX, int originY, const RGBColor& color);
+
+		static void FillCircle(int radius, int originX, int originY, const RGBColor& color);
+
 	private:
 		Renderer() = default;
 
@@ -73,5 +81,8 @@ namespace dewcin
 		static void CopyBufferToWindow(HDC deviceContext, int windowWidth, int windowHeight);
 
 		static void Clear();
+
+		static void PlotLineLow(int x0, int y0, int x1, int y1, const RGBColor& color);
+		static void PlotLineHigh(int x0, int y0, int x1, int y1, const RGBColor& color);
 	};
 }
