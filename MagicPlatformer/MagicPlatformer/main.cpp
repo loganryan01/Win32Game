@@ -1,54 +1,36 @@
 #include "dewcin.h"
 
-float x = 250, y = 250;
+LevelManager& levelManager = LevelManager::GetInstance();
 
 void GameUpdate(float delta)
 {
-	static int frames = 0;
-	static float timePassed = 0.0f;
-
-	frames++;
-	timePassed += delta;
-
-	if (timePassed >= 1.0f)
+	if (dewcin::Input::WasKeyHit(DC_LEFT))
 	{
-		std::wstring charBuffer = L"delta: " + std::to_wstring(delta) + L"\n";
-		OutputDebugString(charBuffer.c_str());
-
-		timePassed -= 1.0f;
-		frames = 0;
+		levelManager.SetCurrentLevel("Level 1");
+	}
+	else if (dewcin::Input::WasKeyHit((DC_RIGHT)))
+	{
+		levelManager.SetCurrentLevel("Level 2");
 	}
 
-	dewcin::Renderer::SetPixel(10, 10, { 0, 0, 255 });
-
-	dewcin::Renderer::DrawRectangle({ 800, 450, 120, 100 }, { 0, 0, 255 });
-
-	dewcin::Renderer::DrawLine(40, 100, 240, 300, { 0, 255, 0 });
-
-	dewcin::Renderer::FillCircle(50, 500, 500, { 255, 255, 255 });
-
-	dewcin::Renderer::DrawCircle(80, 100, 100, { 255, 0, 0 });
-	
-	dewcin::Renderer::FillRectangle({ int(x + 0.5f), int(y + 0.5f), 320, 180 }, { 0, 255, 0 });
-
-	if (dewcin::Input::IsKeyPressed(DC_W))
-		y -= 100.0f * delta;
-	else if (dewcin::Input::IsKeyPressed(DC_S))
-		y += 100.0f * delta;
-
-	if (dewcin::Input::IsKeyPressed(DC_A))
-		x -= 100.0f * delta;
-	else if (dewcin::Input::IsKeyPressed(DC_D))
-		x += 100.0f * delta;
-
-	dewcin::Input::Position mousePosition = dewcin::Input::getMousePosition();
-	std::wstring charBuffer = std::to_wstring(mousePosition.x) + L", " + std::to_wstring(mousePosition.y) + L"\n";
-	OutputDebugString(charBuffer.c_str());
+	levelManager.Update(delta);
+	levelManager.Render();
 }
 
 dewcin_app_entry_point
 {
 	// Game int code
+	auto level1 = std::make_shared<Level>("Level 1");
+	const dewcin::RGBColor& player1Color = { 255, 0, 0 };
+	level1->AddGameObject(std::make_shared<Player>(100, 100, player1Color));
+	levelManager.AddLevel(level1);
+
+	auto level2 = std::make_shared<Level>("Level 2");
+	const dewcin::RGBColor& player2Color = { 0, 255, 0 };
+	level2->AddGameObject(std::make_shared<Player>(200, 100, player2Color));
+	levelManager.AddLevel(level2);
+
+	levelManager.SetCurrentLevel("Level 1");
 
 	dewcin::Game::setGameUpdate(GameUpdate);
 
