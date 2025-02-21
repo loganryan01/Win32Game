@@ -4,11 +4,28 @@ LevelManager& levelManager = LevelManager::GetInstance();
 
 void GameUpdate(float delta)
 {
+	// FPS
+	static int frames = 0;
+	static float timePassed = 0.0f;
+
+	frames++;
+	timePassed += delta;
+
+	if (timePassed >= 1.0f)
+	{
+		std::wstring charBuffer = L"FPS: " + std::to_wstring(frames / 15) + L"\n";
+		OutputDebugString(charBuffer.c_str());
+
+		timePassed -= 1.0f;
+		frames = 0;
+	}
+	
+	// Level Manager
 	if (dewcin::Input::WasKeyHit(DC_LEFT))
 	{
 		levelManager.SetCurrentLevel("Level 1");
 	}
-	else if (dewcin::Input::WasKeyHit((DC_RIGHT)))
+	else if (dewcin::Input::WasKeyHit(DC_RIGHT))
 	{
 		levelManager.SetCurrentLevel("Level 2");
 	}

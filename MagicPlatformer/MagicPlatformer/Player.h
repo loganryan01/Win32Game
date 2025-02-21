@@ -3,17 +3,22 @@
 
 #include "GameObject.h"
 #include "renderer.h"
+#include "input.h"
 
 class Player : public GameObject
 {
 public:
-	Player(int x, int y, const dewcin::RGBColor& color);
+	Player(float x, float y, const dewcin::RGBColor& color);
 	void Update(float delta) override;
 	void Render() override;
 
 private:
-	int posX, posY;
+	float posX, posY;
+
 	const dewcin::RGBColor& playerColor;
+
+	float velocityY = 0.0f; // Player's vertical velocity
+	bool isJumping = false;
 };
 
 #endif
