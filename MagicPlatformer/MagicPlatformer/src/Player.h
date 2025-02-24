@@ -2,8 +2,8 @@
 #define PLAYER_H
 
 #include "GameObject.h"
-#include "renderer.h"
-#include "input.h"
+#include "dewcin/renderer.h"
+#include "dewcin/input.h"
 
 class Player : public GameObject
 {

@@ -1,4 +1,4 @@
-#include "dewcin.h"
+#include "dewcin/dewcin.h"
 
 LevelManager& levelManager = LevelManager::GetInstance();
 
