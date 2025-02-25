@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "dewcin/renderer.h"
 #include "dewcin/input.h"
+#include "maths/Vector.h"
 
 class Player : public GameObject
 {
@@ -13,11 +14,11 @@ public:
 	void Render() override;
 
 private:
-	float posX, posY;
+	Vector2 position;
+	Vector2 velocity = { 0, 0 };
 
 	const dewcin::RGBColor& playerColor;
 
-	float velocityY = 0.0f; // Player's vertical velocity
 	bool isJumping = false;
 };
 
