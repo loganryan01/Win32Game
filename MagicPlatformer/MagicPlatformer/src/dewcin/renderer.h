@@ -3,6 +3,7 @@
 #include <Windows.h>
 
 #include <stdint.h>
+#include "../maths/Matrix.h"
 
 namespace dewcin
 {
@@ -46,8 +47,10 @@ namespace dewcin
 		inline static void SetClearColor(const RGBColor& color) { getInstance().clearColor = color; }
 
 		static void SetPixel(int x, int y, const RGBColor& color);
+		static void SetTransformedPixel(int x, int y, const Matrix3x3& transform, const RGBColor& color);
 
 		static void FillRectangle(const Rect& rect, const RGBColor& color);
+		static void FillTransformedRectangle(const Rect& rect, const Matrix3x3& transform, const RGBColor& color);
 
 		static void DrawRectangle(const Rect& rect, const RGBColor& color);
 

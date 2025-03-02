@@ -2,12 +2,18 @@
 
 namespace dewcin
 {
+	void Renderer::SetTransformedPixel(int x, int y, const Matrix3x3& transform, const RGBColor& color)
+	{
+		auto point = transform.transformPoint(static_cast<float>(x), static_cast<float>(y));
+		SetPixel(static_cast<int>(point.first), static_cast<int>(point.second), color);
+	}
+	
 	void Renderer::SetPixel(int x, int y, const RGBColor& color)
 	{
 		BitmapBuffer& buffer = getInstance().buffer;
 
 		// clipping
-		if (x < 0 || x > buffer.width || y < 0 || y > buffer.height)
+		if (x < 0 || x >= buffer.width || y < 0 || y >= buffer.height)
 			return;
 
 		// convert (u8, u8, u8) rgb color to u32 representation
@@ -45,6 +51,20 @@ namespace dewcin
 				*pixel++ = raw_color;
 			}
 			row += buffer.pitch;
+		}
+	}
+
+	void Renderer::FillTransformedRectangle(const Rect& rect, const Matrix3x3& transform, const RGBColor& color)
+	{
+		for (int i = 0; i < rect.height; i++)
+		{
+			auto left = transform.transformPoint(static_cast<float>(rect.x), static_cast<float>(rect.y + i));
+			auto right = transform.transformPoint(static_cast<float>(rect.x + rect.width), static_cast<float>(rect.y + i));
+			
+			for (auto x = static_cast<int>(left.first); x <= static_cast<int>(right.first); x++)
+			{
+				SetPixel(x, static_cast<int>(left.second), color);
+			}
 		}
 	}
 

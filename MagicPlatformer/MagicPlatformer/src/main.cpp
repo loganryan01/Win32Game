@@ -19,16 +19,6 @@ void GameUpdate(float delta)
 		timePassed -= 1.0f;
 		frames = 0;
 	}
-	
-	// Level Manager
-	if (dewcin::Input::WasKeyHit(DC_LEFT))
-	{
-		levelManager.SetCurrentLevel("Level 1");
-	}
-	else if (dewcin::Input::WasKeyHit(DC_RIGHT))
-	{
-		levelManager.SetCurrentLevel("Level 2");
-	}
 
 	levelManager.Update(delta);
 	levelManager.Render();
@@ -41,11 +31,6 @@ dewcin_app_entry_point
 	const dewcin::RGBColor& player1Color = { 255, 0, 0 };
 	level1->AddGameObject(std::make_shared<Player>(100, 100, player1Color));
 	levelManager.AddLevel(level1);
-
-	auto level2 = std::make_shared<Level>("Level 2");
-	const dewcin::RGBColor& player2Color = { 0, 255, 0 };
-	level2->AddGameObject(std::make_shared<Player>(200, 100, player2Color));
-	levelManager.AddLevel(level2);
 
 	levelManager.SetCurrentLevel("Level 1");
 

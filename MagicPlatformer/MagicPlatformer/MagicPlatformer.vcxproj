@@ -133,6 +133,7 @@
     <ClInclude Include="src\dewcin\input.h" />
     <ClInclude Include="src\Level.h" />
     <ClInclude Include="src\LevelManager.h" />
+    <ClInclude Include="src\maths\Matrix.h" />
     <ClInclude Include="src\maths\Vector.h" />
     <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\dewcin\renderer.h" />

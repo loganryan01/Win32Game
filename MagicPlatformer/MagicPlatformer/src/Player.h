@@ -5,6 +5,7 @@
 #include "dewcin/renderer.h"
 #include "dewcin/input.h"
 #include "maths/Vector.h"
+#include "maths/Matrix.h"
 
 class Player : public GameObject
 {
@@ -14,8 +15,14 @@ public:
 	void Render() override;
 
 private:
+	Matrix3x3 getTransformationMatrix() const;
+
+private:
 	Vector2 position;
 	Vector2 velocity = { 0, 0 };
+
+	float scaleX, scaleY;
+	float rotation;
 
 	const dewcin::RGBColor& playerColor;
 
