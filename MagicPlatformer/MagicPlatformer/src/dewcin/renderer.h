@@ -2,6 +2,8 @@
 
 #include <Windows.h>
 
+#include <vector>
+#include <algorithm>
 #include <stdint.h>
 #include "../maths/Matrix.h"
 
@@ -87,5 +89,7 @@ namespace dewcin
 
 		static void PlotLineLow(int x0, int y0, int x1, int y1, const RGBColor& color);
 		static void PlotLineHigh(int x0, int y0, int x1, int y1, const RGBColor& color);
+
+		static void FillPolygon(const std::vector<std::pair<float, float>>& vertices, const RGBColor& color);
 	};
 }

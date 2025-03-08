@@ -1,5 +1,4 @@
 #include "Player.h"
-#include <string>
 
 const float GRAVITY = 9.8f * 15.0f;          // Increase gravity for faster fall
 const float MAX_FALL_SPEED = 100.0f * 15.0f; // Lower max fall speed for smoother landings
@@ -7,7 +6,7 @@ const float GROUND_Y = 400.0f;
 const float JUMP_FORCE = -9.8f * 15.0f;      // Higher jump force for snappier jumps
 const float MOVE_SPEED = 5.0f * 15.0f;
 
-Player::Player(float x, float y, const dewcin::RGBColor& color) : position(x, y), scaleX(2.0f), scaleY(1.0f), rotation(0.0f), playerColor(color) {}
+Player::Player(float x, float y, const dewcin::RGBColor& color) : position(x, y), scaleX(5.0f), scaleY(5.0f), rotation(0.0f), playerColor(color) {}
 
 void Player::Update(float delta)
 {
@@ -54,7 +53,7 @@ void Player::Render()
 {
 	Matrix3x3 playerMatrix = getTransformationMatrix();
 	
-	dewcin::Renderer::FillTransformedRectangle({ 0, 0, 50, 50 }, playerMatrix, playerColor);
+	dewcin::Renderer::FillTransformedRectangle({ 0, 0, 10, 10 }, playerMatrix, playerColor);
 }
 
 Matrix3x3 Player::getTransformationMatrix() const

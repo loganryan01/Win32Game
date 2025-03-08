@@ -56,16 +56,24 @@ namespace dewcin
 
 	void Renderer::FillTransformedRectangle(const Rect& rect, const Matrix3x3& transform, const RGBColor& color)
 	{
-		for (int i = 0; i < rect.height; i++)
-		{
-			auto left = transform.transformPoint(static_cast<float>(rect.x), static_cast<float>(rect.y + i));
-			auto right = transform.transformPoint(static_cast<float>(rect.x + rect.width), static_cast<float>(rect.y + i));
-			
-			for (auto x = static_cast<int>(left.first); x <= static_cast<int>(right.first); x++)
-			{
-				SetPixel(x, static_cast<int>(left.second), color);
-			}
-		}
+		// Compute center of the rectangle
+		int cx = rect.x + rect.width / 2;
+		int cy = rect.y + rect.height / 2;
+		
+		// Transform each corner around the center
+		auto topLeft = transform.transformPoint(static_cast<float>(rect.x - cx), static_cast<float>(rect.y - cy));
+		auto topRight = transform.transformPoint(static_cast<float>(rect.x + rect.width - cx), static_cast<float>(rect.y - cy));
+		auto bottomLeft = transform.transformPoint(static_cast<float>(rect.x - cx), static_cast<float>(rect.y + rect.height - cy));
+		auto bottomRight = transform.transformPoint(static_cast<float>(rect.x + rect.width - cx), static_cast<float>(rect.y + rect.height - cy));
+		
+		// Translate back to original center
+		topLeft.first += static_cast<float>(cx); topLeft.second += static_cast<float>(cy);
+		topRight.first += static_cast<float>(cx); topRight.second += static_cast<float>(cy);
+		bottomLeft.first += static_cast<float>(cx); bottomLeft.second += static_cast<float>(cy);
+		bottomRight.first += static_cast<float>(cx); bottomRight.second += static_cast<float>(cy);
+
+		// Fill the transformed rectangle 
+		FillPolygon({ topLeft, topRight, bottomRight, bottomLeft }, color);
 	}
 
 	void Renderer::DrawRectangle(const Rect& rect, const RGBColor& color)
@@ -243,5 +251,61 @@ namespace dewcin
 		BitmapBuffer& buffer = getInstance().buffer;
 
 		FillRectangle({ 0, 0, buffer.width, buffer.height }, getInstance().clearColor);
+	}
+
+	void Renderer::FillPolygon(const std::vector<std::pair<float, float>>& vertices, const RGBColor& color)
+	{
+		if (vertices.size() < 3) return; // Not a valid polygon
+
+		// Find the min and max Y values
+		float minY = vertices[0].second, maxY = vertices[0].second;
+		for (const auto& v : vertices)
+		{
+			if (v.second < minY) minY = v.second;
+			if (v.second > maxY) maxY = v.second;
+		}
+
+		// Iterate through scanlines
+		for (auto y = static_cast<int>(ceil(minY)); y <= static_cast<int>(floor(maxY)); y++)
+		{
+			std::vector<float> intersections;
+
+			// Find intersections with each edge
+			for (size_t i = 0; i < vertices.size(); i++)
+			{
+				auto v1 = vertices[i];
+				auto v2 = vertices[(i + 1) % vertices.size()]; // Wrap around to first vertex
+
+				// Check if the edge crosses the current scanline
+				if ((v1.second <= static_cast<float>(y) && v2.second > static_cast<float>(y)) || 
+					(v2.second <= static_cast<float>(y) && v1.second > static_cast<float>(y)))
+				{
+					// Compute intersection using line equation
+					float x = v1.first + (static_cast<float>(y) - v1.second) * (v2.first - v1.first) / (v2.second - v1.second);
+					intersections.push_back(x);
+				}
+
+			}
+
+			// Sort intersections (they should be in pairs)
+			std::sort(intersections.begin(), intersections.end());
+
+			// Fill between pairs of intersections
+			for (size_t i = 0; i < intersections.size(); i += 2)
+			{
+				if (i + 1 >= intersections.size())
+				{
+					continue;
+				}
+
+				auto xStart = static_cast<int>(ceil(intersections[i]));
+				auto xEnd = static_cast<int>(floor(intersections[i + 1]));
+
+				for (int x = xStart; x <= xEnd; x++)
+				{
+					SetPixel(x, y, color);
+				}
+			}
+		}
 	}
 }
