@@ -21,12 +21,13 @@ void GameUpdate(float delta)
 	}
 
 	levelManager.Update(delta);
+	levelManager.DetectCollisions();
 	levelManager.Render();
 }
 
 dewcin_app_entry_point
 {
-	// Game int code
+	// Game init code
 	auto level1 = std::make_shared<Level>("Level 1");
 	const dewcin::RGBColor& player1Color = { 255, 0, 0 };
 	level1->AddGameObject(std::make_shared<Player>(100, 100, player1Color));
@@ -38,6 +39,7 @@ dewcin_app_entry_point
 
 	dewcin::Renderer::SetClearColor({ 200, 120, 45 });
 
+	// Game start code
 	dewcin::Game::Start();
 
 	// Game destroy code

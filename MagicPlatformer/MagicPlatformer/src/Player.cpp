@@ -6,7 +6,10 @@ const float GROUND_Y = 400.0f;
 const float JUMP_FORCE = -9.8f * 15.0f;      // Higher jump force for snappier jumps
 const float MOVE_SPEED = 5.0f * 15.0f;
 
-Player::Player(float x, float y, const dewcin::RGBColor& color) : position(x, y), scaleX(5.0f), scaleY(5.0f), rotation(0.0f), playerColor(color) {}
+Player::Player(float x, float y, const dewcin::RGBColor& color) : position(x, y), scaleX(5.0f), scaleY(5.0f), rotation(0.0f), playerColor(color) 
+{
+	bounds = { static_cast<int>(x), static_cast<int>(y), 10, 10 };
+}
 
 void Player::Update(float delta)
 {
@@ -21,13 +24,6 @@ void Player::Update(float delta)
 		
 	// Update player's position
 	position = position + velocity * delta;
-
-	// Ground collision
-	if (position.y >= GROUND_Y)
-	{
-		position.y = GROUND_Y;
-		velocity.y = 0; // Stop falling when on the ground
-	}
 
 	// On key press
 	if (dewcin::Input::WasKeyHit(DC_SPACE) && position.y == GROUND_Y)
@@ -47,6 +43,8 @@ void Player::Update(float delta)
 	{
 		velocity.x = 0;
 	}
+
+	bounds = { static_cast<int>(position.x), static_cast<int>(position.y), 10 * static_cast<int>(scaleX), 10 * static_cast<int>(scaleY) };
 }
 
 void Player::Render()
@@ -54,6 +52,18 @@ void Player::Render()
 	Matrix3x3 playerMatrix = getTransformationMatrix();
 	
 	dewcin::Renderer::FillTransformedRectangle({ 0, 0, 10, 10 }, playerMatrix, playerColor);
+}
+
+void Player::OnCollision(GameObject* other)
+{
+	// TODO: Create id for gameObjects to allow different collision resolutions
+
+	// Ground collision
+	if (position.y >= GROUND_Y)
+	{
+		position.y = GROUND_Y;
+		velocity.y = 0; // Stop falling when on the ground
+	}
 }
 
 Matrix3x3 Player::getTransformationMatrix() const

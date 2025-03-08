@@ -52,3 +52,11 @@ void LevelManager::Render()
 		currentLevel->Render();
 	}
 }
+
+void LevelManager::DetectCollisions()
+{
+	if (currentLevel)
+	{
+		currentLevel->DetectCollisions();
+	}
+}

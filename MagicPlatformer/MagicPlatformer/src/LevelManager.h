@@ -14,6 +14,7 @@ public:
 	void SetCurrentLevel(const std::string& name);
 	void Update(float delta);
 	void Render();
+	void DetectCollisions();
 
 private:
 	LevelManager();

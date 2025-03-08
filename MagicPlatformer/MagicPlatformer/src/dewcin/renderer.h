@@ -17,6 +17,14 @@ namespace dewcin
 	struct Rect
 	{
 		int x, y, width, height;
+
+		bool Intersects(const Rect& other) const
+		{
+			return (x < other.x + other.width &&
+				x + width > other.x &&
+				y < other.y + other.height &&
+				y + height > other.y);
+		}
 	};
 
 	class Renderer

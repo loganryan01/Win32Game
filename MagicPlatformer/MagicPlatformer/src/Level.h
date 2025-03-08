@@ -16,6 +16,7 @@ public:
 	void Unload();
 	void Update(float delta);
 	void Render();
+	void DetectCollisions();
 
 	void AddGameObject(std::shared_ptr<GameObject> obj);
 
