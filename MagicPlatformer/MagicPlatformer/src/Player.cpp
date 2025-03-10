@@ -1,14 +1,22 @@
 #include "Player.h"
 
-const float GRAVITY = 9.8f * 15.0f;          // Increase gravity for faster fall
-const float MAX_FALL_SPEED = 100.0f * 15.0f; // Lower max fall speed for smoother landings
-const float GROUND_Y = 400.0f;
-const float JUMP_FORCE = -9.8f * 15.0f;      // Higher jump force for snappier jumps
-const float MOVE_SPEED = 5.0f * 15.0f;
+const float GRAVITY = 9.8f * 10.0f;          // Increase gravity for faster fall
+const float MAX_FALL_SPEED = 100.0f * 10.0f; // Lower max fall speed for smoother landings
+const float JUMP_FORCE = -9.8f * 10.0f;      // Higher jump force for snappier jumps
+const float MOVE_SPEED = 5.0f * 10.0f;
 
-Player::Player(float x, float y, const dewcin::RGBColor& color) : position(x, y), scaleX(5.0f), scaleY(5.0f), rotation(0.0f), playerColor(color) 
+Player::Player(float x, float y, const dewcin::RGBColor& color, int playerId) :
+	scaleX(5.0f), scaleY(5.0f), rotation(0.0f), playerColor(color)
 {
-	bounds = { static_cast<int>(x), static_cast<int>(y), 10, 10 };
+	id = playerId;
+
+	int boundsSizeX = 10 * static_cast<int>(scaleX);
+	int boundsSizeY = 10 * static_cast<int>(scaleY);
+	auto boundsXPos = static_cast<int>(x) - boundsSizeX / 2;
+	auto boundsYPos = static_cast<int>(y) - boundsSizeY / 2;
+	bounds = { boundsXPos + 5, boundsYPos + 5, boundsSizeX, boundsSizeY };
+
+	position = { x, y };
 }
 
 void Player::Update(float delta)
@@ -21,13 +29,20 @@ void Player::Update(float delta)
 	{
 		velocity.y = MAX_FALL_SPEED;
 	}
+
+	if (isGrounded)
+	{
+		position.y = groundYPos - 10.0f * scaleY;
+		velocity.y = 0; // Stop falling when on the ground
+	}
 		
 	// Update player's position
 	position = position + velocity * delta;
 
 	// On key press
-	if (dewcin::Input::WasKeyHit(DC_SPACE) && position.y == GROUND_Y)
+	if (dewcin::Input::IsKeyPressed(DC_SPACE) && isGrounded)
 	{
+		isGrounded = false;
 		velocity.y = JUMP_FORCE;
 	}
 
@@ -44,7 +59,12 @@ void Player::Update(float delta)
 		velocity.x = 0;
 	}
 
-	bounds = { static_cast<int>(position.x), static_cast<int>(position.y), 10 * static_cast<int>(scaleX), 10 * static_cast<int>(scaleY) };
+	int boundsSizeX = 10 * static_cast<int>(scaleX);
+	int boundsSizeY = 10 * static_cast<int>(scaleY);
+	auto boundsXPos = static_cast<int>(position.x) - boundsSizeX / 2;
+	auto boundsYPos = static_cast<int>(position.y) - boundsSizeY / 2;
+	bounds = { boundsXPos + 5, boundsYPos + 5, boundsSizeX, boundsSizeY };
+	isGrounded = false;
 }
 
 void Player::Render()
@@ -56,13 +76,11 @@ void Player::Render()
 
 void Player::OnCollision(GameObject* other)
 {
-	// TODO: Create id for gameObjects to allow different collision resolutions
-
 	// Ground collision
-	if (position.y >= GROUND_Y)
+	if (other->id == 1)
 	{
-		position.y = GROUND_Y;
-		velocity.y = 0; // Stop falling when on the ground
+		isGrounded = true;
+		groundYPos = other->position.y;
 	}
 }
 

@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform.h" />
     <ClInclude Include="src\dewcin\dewcin.h" />
     <ClInclude Include="src\dewcin\game.h" />
     <ClInclude Include="src\GameObject.h" />
@@ -139,6 +140,7 @@
     <ClInclude Include="src\dewcin\renderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform.cpp" />
     <ClCompile Include="src\dewcin\game.cpp" />
     <ClCompile Include="src\dewcin\input.cpp" />
     <ClCompile Include="src\Level.cpp" />

@@ -4,13 +4,12 @@
 #include "GameObject.h"
 #include "dewcin/renderer.h"
 #include "dewcin/input.h"
-#include "maths/Vector.h"
 #include "maths/Matrix.h"
 
 class Player : public GameObject
 {
 public:
-	Player(float x, float y, const dewcin::RGBColor& color);
+	Player(float x, float y, const dewcin::RGBColor& color, int playerId);
 	void Update(float delta) override;
 	void Render() override;
 
@@ -20,7 +19,6 @@ private:
 	Matrix3x3 getTransformationMatrix() const;
 
 private:
-	Vector2 position;
 	Vector2 velocity = { 0, 0 };
 
 	float scaleX, scaleY;
@@ -29,6 +27,8 @@ private:
 	const dewcin::RGBColor& playerColor;
 
 	bool isJumping = false;
+	bool isGrounded = false;
+	float groundYPos = 0;
 };
 
 #endif

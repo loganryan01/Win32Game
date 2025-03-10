@@ -4,13 +4,15 @@
 #include <Windows.h>
 
 #include "dewcin/renderer.h"
-
-// TODO: Create ground object
+#include "maths/Vector.h"
 
 class GameObject
 {
 public:
+	int id;
 	dewcin::Rect bounds;
+
+	Vector2 position;
 
 	virtual ~GameObject() = default;
 

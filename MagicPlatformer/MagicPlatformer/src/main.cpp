@@ -13,7 +13,7 @@ void GameUpdate(float delta)
 
 	if (timePassed >= 1.0f)
 	{
-		std::wstring charBuffer = L"FPS: " + std::to_wstring(frames / 15) + L"\n";
+		std::wstring charBuffer = L"FPS: " + std::to_wstring(frames / 10) + L"\n";
 		OutputDebugString(charBuffer.c_str());
 
 		timePassed -= 1.0f;
@@ -30,7 +30,9 @@ dewcin_app_entry_point
 	// Game init code
 	auto level1 = std::make_shared<Level>("Level 1");
 	const dewcin::RGBColor& player1Color = { 255, 0, 0 };
-	level1->AddGameObject(std::make_shared<Player>(100, 100, player1Color));
+	const dewcin::RGBColor& platformColor = { 0, 0, 0 };
+	level1->AddGameObject(std::make_shared<Player>(100, 100, player1Color, 0));
+	level1->AddGameObject(std::make_shared<Platform>(100, 500, platformColor, 1));
 	levelManager.AddLevel(level1);
 
 	levelManager.SetCurrentLevel("Level 1");
