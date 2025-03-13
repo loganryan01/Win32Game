@@ -308,4 +308,39 @@ namespace dewcin
 			}
 		}
 	}
+
+	void Renderer::DrawTextWithScale(int x, int y, int scale, char c, const RGBColor& color)
+	{
+		if (c != '0')
+			return;
+		
+		for (int row = 0; row < scale; row++)
+		{
+			for (int col = 0; col < scale; col++)
+			{
+				SetPixel(x * scale + col, y * scale + row, color);
+			}
+		}
+	}
+
+	void Renderer::DrawTextOnBitmap(int x, int y, int scale, const char* text, const RGBColor& color)
+	{
+		int offsetX = 0;
+		while (*text)
+		{
+			auto letter = letters[*text - 'A'];
+
+			// If the scale is 2, it must do the first row twice
+			for (int row = 0; row < 7; row++)
+			{
+				for (int col = 0; col < 5; col++)
+				{
+					DrawTextWithScale(x + col, y + row, scale, static_cast<char>(letter[row][col]), color);
+				}
+			}
+
+			offsetX += 6;
+			text++;
+		}
+	}
 }

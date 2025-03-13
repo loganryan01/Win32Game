@@ -9,6 +9,23 @@
 
 namespace dewcin
 {
+	// TODO: Add missing letters and numbers
+	using v1d = std::vector<wchar_t>;
+	using v2d = std::vector<v1d>;
+	using v3d = std::vector<v2d>;
+	const v3d letters
+	{
+		{
+			{ ' ', '0', '0', '0', ' ' },
+			{ '0', ' ', ' ', ' ', '0' },
+			{ '0', ' ', ' ', ' ', '0' },
+			{ '0', '0', '0', '0', '0' },
+			{ '0', ' ', ' ', ' ', '0' },
+			{ '0', ' ', ' ', ' ', '0' },
+			{ '0', ' ', ' ', ' ', '0' }
+		}
+	};
+	
 	struct RGBColor
 	{
 		uint8_t red, green, blue;
@@ -70,6 +87,8 @@ namespace dewcin
 
 		static void FillCircle(int radius, int originX, int originY, const RGBColor& color);
 
+		static void DrawTextOnBitmap(int x, int y, int scale, const char* text, const RGBColor& color);
+
 	private:
 		Renderer() = default;
 
@@ -99,5 +118,7 @@ namespace dewcin
 		static void PlotLineHigh(int x0, int y0, int x1, int y1, const RGBColor& color);
 
 		static void FillPolygon(const std::vector<std::pair<float, float>>& vertices, const RGBColor& color);
+
+		static void DrawTextWithScale(int x, int y, int scale, char c, const RGBColor& color);
 	};
 }

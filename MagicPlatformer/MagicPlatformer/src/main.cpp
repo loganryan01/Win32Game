@@ -20,9 +20,11 @@ void GameUpdate(float delta)
 		frames = 0;
 	}
 
-	levelManager.Update(delta);
+	dewcin::Renderer::DrawTextOnBitmap(0, 0, 5, "A", { 255, 255, 255 });
+
+	/*levelManager.Update(delta);
 	levelManager.DetectCollisions();
-	levelManager.Render();
+	levelManager.Render();*/
 }
 
 dewcin_app_entry_point
