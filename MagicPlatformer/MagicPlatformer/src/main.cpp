@@ -1,6 +1,7 @@
 #include "dewcin/dewcin.h"
 
 LevelManager& levelManager = LevelManager::GetInstance();
+int lastFrameRate = 0;
 
 void GameUpdate(float delta)
 {
@@ -13,18 +14,17 @@ void GameUpdate(float delta)
 
 	if (timePassed >= 1.0f)
 	{
-		std::wstring charBuffer = L"FPS: " + std::to_wstring(frames / 10) + L"\n";
-		OutputDebugString(charBuffer.c_str());
-
+		lastFrameRate = frames;
 		timePassed -= 1.0f;
 		frames = 0;
 	}
 
-	dewcin::Renderer::DrawTextOnBitmap(0, 0, 5, "A", { 255, 255, 255 });
+	auto s_frames = "FPS: " + std::to_string(lastFrameRate);
+	dewcin::Renderer::DrawTextOnBitmap(0, 0, 5, s_frames.c_str(), {255, 255, 255});
 
-	/*levelManager.Update(delta);
+	levelManager.Update(delta);
 	levelManager.DetectCollisions();
-	levelManager.Render();*/
+	levelManager.Render();
 }
 
 dewcin_app_entry_point

@@ -6,6 +6,7 @@
 #include "dewcin/renderer.h"
 #include "maths/Vector.h"
 
+// TODO: Create Vector2 variable for scale of game objects
 class GameObject
 {
 public:

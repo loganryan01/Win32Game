@@ -328,14 +328,14 @@ namespace dewcin
 		int offsetX = 0;
 		while (*text)
 		{
-			auto letter = letters[*text - 'A'];
+			auto letter = printableChars[*text - 32];
 
 			// If the scale is 2, it must do the first row twice
 			for (int row = 0; row < 7; row++)
 			{
 				for (int col = 0; col < 5; col++)
 				{
-					DrawTextWithScale(x + col, y + row, scale, static_cast<char>(letter[row][col]), color);
+					DrawTextWithScale(x + col + offsetX, y + row, scale, static_cast<char>(letter[row][col]), color);
 				}
 			}
 
