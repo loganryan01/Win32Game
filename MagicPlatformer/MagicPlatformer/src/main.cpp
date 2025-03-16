@@ -33,8 +33,8 @@ dewcin_app_entry_point
 	auto level1 = std::make_shared<Level>("Level 1");
 	const dewcin::RGBColor& player1Color = { 255, 0, 0 };
 	const dewcin::RGBColor& platformColor = { 0, 0, 0 };
-	level1->AddGameObject(std::make_shared<Player>(100, 100, player1Color, 0));
-	level1->AddGameObject(std::make_shared<Platform>(100, 500, platformColor, 1));
+	level1->AddGameObject(std::make_shared<Player>(100, 100, 5.0f, 5.0f, player1Color, 0));
+	level1->AddGameObject(std::make_shared<Platform>(100, 500, 100.0f, 5.0f, platformColor, 1));
 	levelManager.AddLevel(level1);
 
 	levelManager.SetCurrentLevel("Level 1");

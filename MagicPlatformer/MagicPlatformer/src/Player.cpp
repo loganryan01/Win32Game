@@ -5,18 +5,19 @@ const float MAX_FALL_SPEED = 100.0f * 15.0f; // Lower max fall speed for smoothe
 const float JUMP_FORCE = -9.8f * 15.0f;      // Higher jump force for snappier jumps
 const float MOVE_SPEED = 5.0f * 15.0f;
 
-Player::Player(float x, float y, const dewcin::RGBColor& color, int playerId) :
-	scaleX(5.0f), scaleY(5.0f), rotation(0.0f), playerColor(color)
+Player::Player(float xPos, float yPos, float scaleX, float scaleY, const dewcin::RGBColor& color, int playerId) :
+	playerColor(color), rotation(0.0f)
 {
 	id = playerId;
 
 	int boundsSizeX = 10 * static_cast<int>(scaleX);
 	int boundsSizeY = 10 * static_cast<int>(scaleY);
-	auto boundsXPos = static_cast<int>(x) - boundsSizeX / 2;
-	auto boundsYPos = static_cast<int>(y) - boundsSizeY / 2;
+	auto boundsXPos = static_cast<int>(xPos) - boundsSizeX / 2;
+	auto boundsYPos = static_cast<int>(yPos) - boundsSizeY / 2;
 	bounds = { boundsXPos + 5, boundsYPos + 5, boundsSizeX, boundsSizeY };
 
-	position = { x, y };
+	position = { xPos, yPos };
+	scale = { scaleX, scaleY };
 }
 
 void Player::Update(float delta)
@@ -32,7 +33,7 @@ void Player::Update(float delta)
 
 	if (isGrounded)
 	{
-		position.y = groundYPos - 10.0f * scaleY;
+		position.y = groundYPos - 10.0f * scale.y;
 		velocity.y = 0; // Stop falling when on the ground
 	}
 		
@@ -59,8 +60,8 @@ void Player::Update(float delta)
 		velocity.x = 0;
 	}
 
-	int boundsSizeX = 10 * static_cast<int>(scaleX);
-	int boundsSizeY = 10 * static_cast<int>(scaleY);
+	int boundsSizeX = 10 * static_cast<int>(scale.x);
+	int boundsSizeY = 10 * static_cast<int>(scale.y);
 	auto boundsXPos = static_cast<int>(position.x) - boundsSizeX / 2;
 	auto boundsYPos = static_cast<int>(position.y) - boundsSizeY / 2;
 	bounds = { boundsXPos + 5, boundsYPos + 5, boundsSizeX, boundsSizeY };
@@ -87,7 +88,7 @@ void Player::OnCollision(GameObject* other)
 Matrix3x3 Player::getTransformationMatrix() const
 {
 	Matrix3x3 translation = Matrix3x3::translate(position.x, position.y);
-	Matrix3x3 scaling = Matrix3x3::scale(scaleX, scaleY);
+	Matrix3x3 scaling = Matrix3x3::scale(scale.x, scale.y);
 	Matrix3x3 rotationMatrix = Matrix3x3::rotate(rotation);
 
 	// Combine transformations: Scale -> Rotate -> Translate

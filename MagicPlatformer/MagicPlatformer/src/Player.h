@@ -9,7 +9,7 @@
 class Player : public GameObject
 {
 public:
-	Player(float x, float y, const dewcin::RGBColor& color, int playerId);
+	Player(float xPos, float yPos, float scaleX, float scaleY, const dewcin::RGBColor& color, int playerId);
 	void Update(float delta) override;
 	void Render() override;
 
@@ -19,12 +19,11 @@ private:
 	Matrix3x3 getTransformationMatrix() const;
 
 private:
+	const dewcin::RGBColor& playerColor;
+
 	Vector2 velocity = { 0, 0 };
 
-	float scaleX, scaleY;
-	float rotation;
-
-	const dewcin::RGBColor& playerColor;
+	float rotation = 0.0f;
 
 	bool isJumping = false;
 	bool isGrounded = false;

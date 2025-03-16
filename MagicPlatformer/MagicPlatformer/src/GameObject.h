@@ -6,14 +6,15 @@
 #include "dewcin/renderer.h"
 #include "maths/Vector.h"
 
-// TODO: Create Vector2 variable for scale of game objects
 class GameObject
 {
 public:
 	int id;
 	dewcin::Rect bounds;
 
+	// Transform
 	Vector2 position;
+	Vector2 scale;
 
 	virtual ~GameObject() = default;
 
