@@ -6,7 +6,7 @@
 class Platform : public GameObject
 {
 public:
-	Platform(float xPos, float yPos, float scaleX, float scaleY, const dewcin::RGBColor& color, int platformId);
+	Platform(int xPos, int yPos, int scaleX, int scaleY, const dewcin::RGBColor& color, int platformId);
 	void Update(float delta) override;
 	void Render() override;
 

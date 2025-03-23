@@ -1,20 +1,20 @@
 #include "Player.h"
 
-const float GRAVITY = 9.8f * 15.0f;          // Increase gravity for faster fall
-const float MAX_FALL_SPEED = 100.0f * 15.0f; // Lower max fall speed for smoother landings
-const float JUMP_FORCE = -9.8f * 15.0f;      // Higher jump force for snappier jumps
-const float MOVE_SPEED = 5.0f * 15.0f;
+const int GRAVITY = 1;          // Increase gravity for faster fall
+const int MAX_FALL_SPEED = 7; // Lower max fall speed for smoother landings
+const int JUMP_FORCE = -23;      // Higher jump force for snappier jumps
+const int MOVE_SPEED = 1;
 
-Player::Player(float xPos, float yPos, float scaleX, float scaleY, const dewcin::RGBColor& color, int playerId) :
-	playerColor(color), rotation(0.0f)
+Player::Player(int xPos, int yPos, int scaleX, int scaleY, const dewcin::RGBColor& color, int playerId) :
+	playerColor(color), rotation(0)
 {
 	id = playerId;
 
-	int boundsSizeX = 10 * static_cast<int>(scaleX);
-	int boundsSizeY = 10 * static_cast<int>(scaleY);
-	auto boundsXPos = static_cast<int>(xPos) - boundsSizeX / 2;
-	auto boundsYPos = static_cast<int>(yPos) - boundsSizeY / 2;
-	bounds = { boundsXPos + 5, boundsYPos + 5, boundsSizeX, boundsSizeY };
+	int boundsSizeX = 10 * scaleX;
+	int boundsSizeY = 10 * scaleY;
+	auto boundsXPos = xPos - boundsSizeX / 2;
+	auto boundsYPos = yPos - boundsSizeY / 2;
+	bounds = { xPos, yPos, boundsSizeX, boundsSizeY };
 
 	position = { xPos, yPos };
 	scale = { scaleX, scaleY };
@@ -23,22 +23,24 @@ Player::Player(float xPos, float yPos, float scaleX, float scaleY, const dewcin:
 void Player::Update(float delta)
 {
 	// Apply gravity
-	velocity.y += GRAVITY * delta;
-
-	// Clamp velocity to prevent excessive falling speed
-	if (velocity.y > MAX_FALL_SPEED)
+	if (!isGrounded)
 	{
-		velocity.y = MAX_FALL_SPEED;
+		velocity.y += GRAVITY;
+
+		// Clamp velocity to prevent excessive falling speed
+		if (velocity.y > MAX_FALL_SPEED)
+		{
+			velocity.y = MAX_FALL_SPEED;
+		}
 	}
-
-	if (isGrounded)
+	else
 	{
-		position.y = groundYPos - 10.0f * scale.y;
+		position.y = groundYPos - 10 * scale.y;
 		velocity.y = 0; // Stop falling when on the ground
 	}
 		
 	// Update player's position
-	position = position + velocity * delta;
+	position = position + velocity;
 
 	// On key press
 	if (dewcin::Input::IsKeyPressed(DC_SPACE) && isGrounded)
@@ -60,12 +62,11 @@ void Player::Update(float delta)
 		velocity.x = 0;
 	}
 
-	int boundsSizeX = 10 * static_cast<int>(scale.x);
-	int boundsSizeY = 10 * static_cast<int>(scale.y);
-	auto boundsXPos = static_cast<int>(position.x) - boundsSizeX / 2;
-	auto boundsYPos = static_cast<int>(position.y) - boundsSizeY / 2;
-	bounds = { boundsXPos + 5, boundsYPos + 5, boundsSizeX, boundsSizeY };
-	isGrounded = false;
+	// Updated collider box position
+	auto boundsXPos = position.x - (bounds.width - 10) / 2;
+	auto boundsYPos = position.y - (bounds.height - 10) / 2;
+	bounds.x = boundsXPos;
+	bounds.y = boundsYPos;
 }
 
 void Player::Render()

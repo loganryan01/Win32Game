@@ -5,10 +5,10 @@
 
 struct Vector2
 {
-	float x, y; // The components of a vector
+	int x, y; // The components of a vector
 
 	// Constructor
-	Vector2(float x = 0, float y = 0) : x(x), y(y) {}
+	Vector2(int x = 0, int y = 0) : x(x), y(y) {}
 
 	// Addition
 	friend Vector2 operator+(const Vector2& lhs, const Vector2& rhs)
@@ -23,32 +23,32 @@ struct Vector2
 	}
 
 	// Scalar multiplication
-	friend Vector2 operator*(const Vector2& vector, float scalar)
+	friend Vector2 operator*(const Vector2& vector, int scalar)
 	{
 		return Vector2(vector.x * scalar, vector.y * scalar);
 	}
 
 	// Scalar division
-	friend Vector2 operator/(const Vector2& vector, float scalar)
+	friend Vector2 operator/(const Vector2& vector, int scalar)
 	{
 		return Vector2(vector.x / scalar, vector.y / scalar);
 	}
 
 	// Magnitude (Length of the vector)
-	float magnitude() const
+	int magnitude() const
 	{
-		return std::sqrt(x * x + y * y);
+		return static_cast<int>(std::sqrt(x * x + y * y));
 	}
 
 	// Normalize the vector (make its length 1)
 	Vector2 normalized() const
 	{
-		float mag = magnitude();
+		int mag = magnitude();
 		return (mag > 0) ? *this / mag : Vector2(0, 0);
 	}
 
 	// Dot product (measures similarity between two vectors)
-	float dot(const Vector2& other) const
+	int dot(const Vector2& other) const
 	{
 		return x * other.x + y * other.y;
 	}

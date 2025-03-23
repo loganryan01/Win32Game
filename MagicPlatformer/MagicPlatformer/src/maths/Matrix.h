@@ -6,7 +6,7 @@
 
 struct Matrix3x3
 {
-	std::array<std::array<float, 3>, 3> m;
+	std::array<std::array<int, 3>, 3> m;
 
 	// Constructor
 	Matrix3x3()
@@ -21,7 +21,7 @@ struct Matrix3x3
 		{
 			for (int j = 0; j < 3; j++)
 			{
-				m[i][j] = (i == j) ? 1.0f : 0.0f;
+				m[i][j] = (i == j) ? 1 : 0;
 			}
 		}
 	}
@@ -45,15 +45,15 @@ struct Matrix3x3
 	}
 
 	// Transform a 2D point using the matrix
-	std::pair<float, float> transformPoint(float x, float y) const
+	std::pair<int, int> transformPoint(int x, int y) const
 	{
-		float newX = m[0][0] * x + m[0][1] * y + m[0][2] * 1;
-		float newY = m[1][0] * x + m[1][1] * y + m[1][2] * 1;
+		int newX = m[0][0] * x + m[0][1] * y + m[0][2] * 1;
+		int newY = m[1][0] * x + m[1][1] * y + m[1][2] * 1;
 		return { newX, newY };
 	}
 
 	// Create a translation matrix
-	static Matrix3x3 translate(float tx, float ty)
+	static Matrix3x3 translate(int tx, int ty)
 	{
 		Matrix3x3 mat;
 		mat.m[0][2] = tx;
@@ -62,7 +62,7 @@ struct Matrix3x3
 	}
 
 	// Create a scaling matrix
-	static Matrix3x3 scale(float sx, float sy)
+	static Matrix3x3 scale(int sx, int sy)
 	{
 		Matrix3x3 mat;
 		mat.m[0][0] = sx;
@@ -71,11 +71,11 @@ struct Matrix3x3
 	}
 
 	// Create a rotation matrix (angle in radians)
-	static Matrix3x3 rotate(float angle)
+	static Matrix3x3 rotate(int angle)
 	{
 		Matrix3x3 mat;
-		float c = cos(angle);
-		float s = sin(angle);
+		int c = static_cast<int>(cos(angle));
+		int s = static_cast<int>(sin(angle));
 		mat.m[0][0] = c; mat.m[0][1] = -s;
 		mat.m[1][0] = s; mat.m[1][1] = c;
 		return mat;

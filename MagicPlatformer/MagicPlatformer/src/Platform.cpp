@@ -1,6 +1,6 @@
 #include "Platform.h"
 
-Platform::Platform(float xPos, float yPos, float scaleX, float scaleY, const dewcin::RGBColor& color, int platformId) :
+Platform::Platform(int xPos, int yPos, int scaleX, int scaleY, const dewcin::RGBColor& color, int platformId) :
 	platformColor(color)
 {
 	id = platformId;
@@ -36,7 +36,7 @@ Matrix3x3 Platform::getTransformationMatrix() const
 {
 	Matrix3x3 translation = Matrix3x3::translate(position.x, position.y);
 	Matrix3x3 scaling = Matrix3x3::scale(scale.x, scale.y);
-	Matrix3x3 rotationMatrix = Matrix3x3::rotate(0.0f);
+	Matrix3x3 rotationMatrix = Matrix3x3::rotate(0);
 
 	// Combine transformations: Scale -> Rotate -> Translate
 	return translation * rotationMatrix * scaling;
