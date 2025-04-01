@@ -1,4 +1,5 @@
 #include "dewcin/dewcin.h"
+#include "Defs.h"
 
 /////////////////////////////////////////////////////////
 // To do list:
@@ -31,34 +32,28 @@ void GameUpdate(float delta)
 	}
 
 	auto s_frames = "FPS: " + std::to_string(lastFramesPerSecond);
-	dewcin::Renderer::DrawTextOnBitmap(10, 1, 5, s_frames.c_str(), { 255, 255, 255 });
+	dewcin::Renderer::DrawTextOnBitmap(10, 1, 5, s_frames.c_str(), WHITE);
 
-	std::string moveText = "'A' = MOVE LEFT";
-	dewcin::Renderer::DrawTextOnBitmap(12, 20, 5, moveText.c_str(), { 255, 255, 255 });
-
-	moveText = "'D' = MOVE RIGHT";
-	dewcin::Renderer::DrawTextOnBitmap(12, 40, 5, moveText.c_str(), { 255, 255, 255 });
+	dewcin::Renderer::DrawTextOnBitmap(12, 20, 5, MOVE_LEFT_TEXT.c_str(), WHITE);
+	dewcin::Renderer::DrawTextOnBitmap(12, 40, 5, MOVE_RIGHT_TEXT.c_str(), WHITE);
 }
 
 dewcin_app_entry_point
 {
 	// Game init code
-	auto level1 = std::make_shared<Level>("Level 1");
-	const dewcin::RGBColor& player1Color = { 255, 0, 0 };
-	const dewcin::RGBColor& platformColor = { 0, 0, 0 };
-	const dewcin::RGBColor& doorColor = { 255, 255, 255 };
-	level1->AddGameObject(std::make_shared<Player>(80, 645, 5, 5, player1Color, 0));
-	level1->AddGameObject(std::make_shared<Platform>(660, 695, 123, 5, platformColor, 1));
-	level1->AddGameObject(std::make_shared<Platform>(635, 0, 118, 9, platformColor, -1));
-	level1->AddGameObject(std::make_shared<Platform>(20, 355, 5, 72, platformColor, -1));
-	level1->AddGameObject(std::make_shared<Platform>(1250, 290, 5, 59, platformColor, -1));
-	level1->AddGameObject(std::make_shared<Door>(1250, 625, 5, 9, doorColor, "Level 2", 2));
+	auto level1 = std::make_shared<Level>(LEVEL_ONE_NAME);
+	level1->AddGameObject(std::make_shared<Player>(80, 645, 5, 5, RED, 0));
+	level1->AddGameObject(std::make_shared<Platform>(660, 695, 123, 5, BLACK, 1));
+	level1->AddGameObject(std::make_shared<Platform>(635, 0, 118, 9, BLACK, -1));
+	level1->AddGameObject(std::make_shared<Platform>(20, 355, 5, 72, BLACK, -1));
+	level1->AddGameObject(std::make_shared<Platform>(1250, 290, 5, 59, BLACK, -1));
+	level1->AddGameObject(std::make_shared<Door>(1250, 625, 5, 9, WHITE, LEVEL_TWO_NAME, 2));
 	levelManager.AddLevel(level1);
 
-	auto level2 = std::make_shared<Level>("Level 2");
+	auto level2 = std::make_shared<Level>(LEVEL_TWO_NAME);
 	levelManager.AddLevel(level2);
 
-	levelManager.SetCurrentLevel("Level 1");
+	levelManager.SetCurrentLevel(LEVEL_ONE_NAME);
 
 	dewcin::Game::setGameUpdate(GameUpdate);
 

@@ -1,6 +1,6 @@
 #include "Door.h"
 
-Door::Door(int xPos, int yPos, int scaleX, int scaleY, const dewcin::RGBColor& color, const std::string nextLevel, int doorId) :
+Door::Door(int xPos, int yPos, int scaleX, int scaleY, const dewcin::RGBColor& color, const std::string& nextLevel, int doorId) :
 	doorColor(color), levelName(nextLevel)
 {
 	id = doorId;

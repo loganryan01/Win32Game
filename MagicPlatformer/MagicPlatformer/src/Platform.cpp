@@ -5,10 +5,10 @@ Platform::Platform(int xPos, int yPos, int scaleX, int scaleY, const dewcin::RGB
 {
 	id = platformId;
 
-	int boundsSizeX = 10 * static_cast<int>(scaleX);
-	int boundsSizeY = 10 * static_cast<int>(scaleY);
-	auto boundsXPos = static_cast<int>(xPos) - boundsSizeX / 2;
-	auto boundsYPos = static_cast<int>(yPos) - boundsSizeY / 2;
+	int boundsSizeX = 10 * scaleX;
+	int boundsSizeY = 10 * scaleY;
+	auto boundsXPos = xPos - boundsSizeX / 2;
+	auto boundsYPos = yPos - boundsSizeY / 2;
 	bounds = { boundsXPos + 5, boundsYPos + 5, boundsSizeX, boundsSizeY };
 
 	position = { xPos, yPos };
