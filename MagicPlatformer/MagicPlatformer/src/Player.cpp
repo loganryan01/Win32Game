@@ -12,8 +12,6 @@ Player::Player(int xPos, int yPos, int scaleX, int scaleY, const dewcin::RGBColo
 
 	int boundsSizeX = 10 * scaleX;
 	int boundsSizeY = 10 * scaleY;
-	auto boundsXPos = xPos - boundsSizeX / 2;
-	auto boundsYPos = yPos - boundsSizeY / 2;
 	bounds = { xPos, yPos, boundsSizeX, boundsSizeY };
 
 	position = { xPos, yPos };
@@ -74,6 +72,7 @@ void Player::Render()
 	Matrix3x3 playerMatrix = getTransformationMatrix();
 	
 	dewcin::Renderer::FillTransformedRectangle({ 0, 0, 10, 10 }, playerMatrix, playerColor);
+	dewcin::Renderer::DrawRectangle(bounds, { 0, 255, 0 });
 }
 
 void Player::OnCollision(GameObject* other)
@@ -83,6 +82,34 @@ void Player::OnCollision(GameObject* other)
 	{
 		isGrounded = true;
 		groundYPos = other->position.y;
+	}
+
+	// Wall collision
+	if (other->id == 3)
+	{
+		auto b = bounds;
+		const auto& a = other->bounds;
+		
+		// Calculate x overlap
+		int overlapLeft = a.right - b.left;
+		int overlapRight = b.right - a.left;
+		int overlapTop = a.bottom - b.top;
+		int overlapBottom = b.bottom - a.top;
+
+		int xOverlap = (overlapLeft < overlapRight) ? -overlapLeft : overlapRight;
+		int yOverlap = (overlapTop < overlapBottom) ? -overlapTop : overlapBottom;
+
+		if (std::abs(xOverlap) < std::abs(yOverlap))
+		{
+			if (xOverlap == overlapRight && velocity.x == MOVE_SPEED)
+			{
+				velocity.x = 0;
+			}
+			else if (xOverlap == -overlapLeft && velocity.x == -MOVE_SPEED)
+			{
+				velocity.x = 0;
+			}
+		}
 	}
 }
 

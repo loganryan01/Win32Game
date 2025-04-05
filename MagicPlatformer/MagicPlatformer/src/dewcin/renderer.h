@@ -614,6 +614,11 @@ namespace dewcin
 	{
 		int x, y, width, height;
 
+		int left = x;
+		int right = x + width;
+		int bottom = y+ height;
+		int top = y;
+
 		bool Intersects(const Rect& other) const
 		{
 			return (x < other.x + other.width &&

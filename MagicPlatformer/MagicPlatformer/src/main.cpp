@@ -5,7 +5,6 @@
 // To do list:
 // - Stop player from running through walls
 // - Setup UI Manager for levels
-// - Script to hold all the constant values
 /////////////////////////////////////////////////////////
 
 LevelManager& levelManager = LevelManager::GetInstance();
@@ -44,9 +43,9 @@ dewcin_app_entry_point
 	auto level1 = std::make_shared<Level>(LEVEL_ONE_NAME);
 	level1->AddGameObject(std::make_shared<Player>(80, 645, 5, 5, RED, 0));
 	level1->AddGameObject(std::make_shared<Platform>(660, 695, 123, 5, BLACK, 1));
-	level1->AddGameObject(std::make_shared<Platform>(635, 0, 118, 9, BLACK, -1));
-	level1->AddGameObject(std::make_shared<Platform>(20, 355, 5, 72, BLACK, -1));
-	level1->AddGameObject(std::make_shared<Platform>(1250, 290, 5, 59, BLACK, -1));
+	level1->AddGameObject(std::make_shared<Platform>(635, 0, 118, 9, BLACK, 3));
+	level1->AddGameObject(std::make_shared<Platform>(20, 355, 5, 72, BLACK, 3));
+	level1->AddGameObject(std::make_shared<Platform>(1250, 290, 5, 59, BLACK, 3));
 	level1->AddGameObject(std::make_shared<Door>(1250, 625, 5, 9, WHITE, LEVEL_TWO_NAME, 2));
 	levelManager.AddLevel(level1);
 

@@ -5,6 +5,7 @@
 #include "dewcin/renderer.h"
 #include "dewcin/input.h"
 #include "maths/Matrix.h"
+#include "maths/Vector.h"
 
 class Player : public GameObject
 {
