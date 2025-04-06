@@ -32,11 +32,18 @@ void Level::Render()
 	{
 		obj->Render();
 	}
+	
+	uiManager.Render();
 }
 
 void Level::AddGameObject(std::shared_ptr<GameObject> obj)
 {
 	gameObjects.push_back(obj);
+}
+
+void Level::AddUIElement(std::shared_ptr<UIElement> uiElement)
+{
+	uiManager.AddElement(uiElement);
 }
 
 void Level::DetectCollisions()

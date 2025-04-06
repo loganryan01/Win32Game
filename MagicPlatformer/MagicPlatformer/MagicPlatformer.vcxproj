@@ -140,6 +140,7 @@
     <ClInclude Include="src\maths\Vector.h" />
     <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\dewcin\renderer.h" />
+    <ClInclude Include="src\UIManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Door.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\dewcin\renderer.cpp" />
+    <ClCompile Include="src\UIManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,8 +3,6 @@
 
 /////////////////////////////////////////////////////////
 // To do list:
-// - Stop player from running through walls
-// - Setup UI Manager for levels
 /////////////////////////////////////////////////////////
 
 LevelManager& levelManager = LevelManager::GetInstance();
@@ -32,9 +30,6 @@ void GameUpdate(float delta)
 
 	auto s_frames = "FPS: " + std::to_string(lastFramesPerSecond);
 	dewcin::Renderer::DrawTextOnBitmap(10, 1, 5, s_frames.c_str(), WHITE);
-
-	dewcin::Renderer::DrawTextOnBitmap(12, 20, 5, MOVE_LEFT_TEXT.c_str(), WHITE);
-	dewcin::Renderer::DrawTextOnBitmap(12, 40, 5, MOVE_RIGHT_TEXT.c_str(), WHITE);
 }
 
 dewcin_app_entry_point
@@ -47,6 +42,9 @@ dewcin_app_entry_point
 	level1->AddGameObject(std::make_shared<Platform>(20, 355, 5, 72, BLACK, 3));
 	level1->AddGameObject(std::make_shared<Platform>(1250, 290, 5, 59, BLACK, 3));
 	level1->AddGameObject(std::make_shared<Door>(1250, 625, 5, 9, WHITE, LEVEL_TWO_NAME, 2));
+
+	level1->AddUIElement(std::make_shared<UIText>(12, 20, 5, MOVE_LEFT_TEXT.c_str(), WHITE));
+	level1->AddUIElement(std::make_shared<UIText>(12, 40, 5, MOVE_RIGHT_TEXT.c_str(), WHITE));
 	levelManager.AddLevel(level1);
 
 	auto level2 = std::make_shared<Level>(LEVEL_TWO_NAME);
