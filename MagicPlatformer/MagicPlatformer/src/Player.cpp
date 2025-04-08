@@ -72,7 +72,7 @@ void Player::Render()
 	Matrix3x3 playerMatrix = getTransformationMatrix();
 	
 	dewcin::Renderer::FillTransformedRectangle({ 0, 0, 10, 10 }, playerMatrix, playerColor);
-	dewcin::Renderer::DrawRectangle(bounds, { 0, 255, 0 });
+	//dewcin::Renderer::DrawRectangle(bounds, { 0, 255, 0 });
 }
 
 void Player::OnCollision(GameObject* other)
