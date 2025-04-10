@@ -616,7 +616,7 @@ namespace dewcin
 
 		int left = x;
 		int right = x + width;
-		int bottom = y+ height;
+		int bottom = y + height;
 		int top = y;
 
 		bool Intersects(const Rect& other) const

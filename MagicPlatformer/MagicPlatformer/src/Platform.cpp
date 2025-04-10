@@ -7,9 +7,9 @@ Platform::Platform(int xPos, int yPos, int scaleX, int scaleY, const dewcin::RGB
 
 	int boundsSizeX = 10 * scaleX;
 	int boundsSizeY = 10 * scaleY;
-	auto boundsXPos = xPos - boundsSizeX / 2;
-	auto boundsYPos = yPos - boundsSizeY / 2;
-	bounds = { boundsXPos + 5, boundsYPos + 5, boundsSizeX, boundsSizeY };
+	auto boundsXPos = xPos - (boundsSizeX - 10) / 2;
+	auto boundsYPos = yPos - (boundsSizeY - 10) / 2;
+	bounds = { boundsXPos, boundsYPos, boundsSizeX, boundsSizeY };
 
 	position = { xPos, yPos };
 	scale = { scaleX, scaleY };
@@ -25,6 +25,7 @@ void Platform::Render()
 	Matrix3x3 platformMatrix = getTransformationMatrix();
 
 	dewcin::Renderer::FillTransformedRectangle({ 0, 0, 10, 10 }, platformMatrix, platformColor);
+	dewcin::Renderer::DrawRectangle(bounds, { 0, 255, 0 });
 }
 
 void Platform::OnCollision(GameObject* other)

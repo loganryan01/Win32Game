@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <string>
 
 const int GRAVITY = 1;          // Increase gravity for faster fall
 const int MAX_FALL_SPEED = 7; // Lower max fall speed for smoother landings
@@ -65,6 +66,11 @@ void Player::Update(float delta)
 	auto boundsYPos = position.y - (bounds.height - 10) / 2;
 	bounds.x = boundsXPos;
 	bounds.y = boundsYPos;
+
+	bounds.left = bounds.x;
+	bounds.right = bounds.x + bounds.width;
+	bounds.top = bounds.y;
+	bounds.bottom = bounds.y + bounds.height;
 }
 
 void Player::Render()
@@ -72,7 +78,7 @@ void Player::Render()
 	Matrix3x3 playerMatrix = getTransformationMatrix();
 	
 	dewcin::Renderer::FillTransformedRectangle({ 0, 0, 10, 10 }, playerMatrix, playerColor);
-	//dewcin::Renderer::DrawRectangle(bounds, { 0, 255, 0 });
+	dewcin::Renderer::DrawRectangle(bounds, { 0, 255, 0 });
 }
 
 void Player::OnCollision(GameObject* other)
@@ -87,14 +93,14 @@ void Player::OnCollision(GameObject* other)
 	// Wall collision
 	if (other->id == 3)
 	{
-		auto b = bounds;
-		const auto& a = other->bounds;
+		auto a = bounds;
+		const auto& b = other->bounds;
 		
 		// Calculate x overlap
-		int overlapLeft = a.right - b.left;
-		int overlapRight = b.right - a.left;
-		int overlapTop = a.bottom - b.top;
-		int overlapBottom = b.bottom - a.top;
+		int overlapLeft = b.right - a.left;
+		int overlapRight = a.right - b.left;
+		int overlapTop = b.bottom - a.top;
+		int overlapBottom = a.bottom - b.top;
 
 		int xOverlap = (overlapLeft < overlapRight) ? -overlapLeft : overlapRight;
 		int yOverlap = (overlapTop < overlapBottom) ? -overlapTop : overlapBottom;
@@ -108,6 +114,14 @@ void Player::OnCollision(GameObject* other)
 			else if (xOverlap == -overlapLeft && velocity.x == -MOVE_SPEED)
 			{
 				velocity.x = 0;
+			}
+		}
+		else
+		{
+			if (yOverlap == overlapBottom)
+			{
+				isGrounded = true;
+				groundYPos = b.top + yOverlap;
 			}
 		}
 	}
