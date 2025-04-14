@@ -78,7 +78,7 @@ void Player::Render()
 	Matrix3x3 playerMatrix = getTransformationMatrix();
 	
 	dewcin::Renderer::FillTransformedRectangle({ 0, 0, 10, 10 }, playerMatrix, playerColor);
-	dewcin::Renderer::DrawRectangle(bounds, { 0, 255, 0 });
+	//dewcin::Renderer::DrawRectangle(bounds, { 0, 255, 0 });
 }
 
 void Player::OnCollision(GameObject* other)
@@ -107,21 +107,15 @@ void Player::OnCollision(GameObject* other)
 
 		if (std::abs(xOverlap) < std::abs(yOverlap))
 		{
-			if (xOverlap == overlapRight && velocity.x == MOVE_SPEED)
-			{
-				velocity.x = 0;
-			}
-			else if (xOverlap == -overlapLeft && velocity.x == -MOVE_SPEED)
-			{
-				velocity.x = 0;
-			}
+			position.x -= xOverlap;
+			velocity.x = 0;
 		}
 		else
 		{
 			if (yOverlap == overlapBottom)
 			{
 				isGrounded = true;
-				groundYPos = b.top + yOverlap;
+				groundYPos = b.top + (b.height / 7);
 			}
 		}
 	}

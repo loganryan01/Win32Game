@@ -25,7 +25,7 @@ void Platform::Render()
 	Matrix3x3 platformMatrix = getTransformationMatrix();
 
 	dewcin::Renderer::FillTransformedRectangle({ 0, 0, 10, 10 }, platformMatrix, platformColor);
-	dewcin::Renderer::DrawRectangle(bounds, { 0, 255, 0 });
+	//dewcin::Renderer::DrawRectangle(bounds, { 0, 255, 0 });
 }
 
 void Platform::OnCollision(GameObject* other)
