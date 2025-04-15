@@ -9,7 +9,9 @@ Platform::Platform(int xPos, int yPos, int scaleX, int scaleY, const dewcin::RGB
 	int boundsSizeY = 10 * scaleY;
 	auto boundsXPos = xPos - (boundsSizeX - 10) / 2;
 	auto boundsYPos = yPos - (boundsSizeY - 10) / 2;
-	bounds = { boundsXPos, boundsYPos, boundsSizeX, boundsSizeY };
+
+	auto colliderPtr = std::make_unique<Collider>(boundsXPos, boundsYPos, boundsSizeX, boundsSizeY);
+	collider = colliderPtr.get();
 
 	position = { xPos, yPos };
 	scale = { scaleX, scaleY };
@@ -28,10 +30,10 @@ void Platform::Render()
 	//dewcin::Renderer::DrawRectangle(bounds, { 0, 255, 0 });
 }
 
-void Platform::OnCollision(GameObject* other)
-{
-	// Empty
-}
+//void Platform::OnCollision(GameObject* other)
+//{
+//	// Empty
+//}
 
 Matrix3x3 Platform::getTransformationMatrix() const
 {

@@ -1,5 +1,6 @@
 #include "Player.h"
 #include <string>
+#include <memory>
 
 const int GRAVITY = 1;          // Increase gravity for faster fall
 const int MAX_FALL_SPEED = 7; // Lower max fall speed for smoother landings
@@ -13,7 +14,9 @@ Player::Player(int xPos, int yPos, int scaleX, int scaleY, const dewcin::RGBColo
 
 	int boundsSizeX = 10 * scaleX;
 	int boundsSizeY = 10 * scaleY;
-	bounds = { xPos, yPos, boundsSizeX, boundsSizeY };
+
+	auto colliderPtr = std::make_unique<Collider>(xPos, yPos, boundsSizeX, boundsSizeY);
+	collider = colliderPtr.get();
 
 	position = { xPos, yPos };
 	scale = { scaleX, scaleY };
@@ -44,7 +47,6 @@ void Player::Update(float delta)
 	// On key press
 	if (dewcin::Input::IsKeyPressed(DC_SPACE) && isGrounded)
 	{
-		isGrounded = false;
 		velocity.y = JUMP_FORCE;
 	}
 
@@ -62,15 +64,9 @@ void Player::Update(float delta)
 	}
 
 	// Updated collider box position
-	auto boundsXPos = position.x - (bounds.width - 10) / 2;
-	auto boundsYPos = position.y - (bounds.height - 10) / 2;
-	bounds.x = boundsXPos;
-	bounds.y = boundsYPos;
-
-	bounds.left = bounds.x;
-	bounds.right = bounds.x + bounds.width;
-	bounds.top = bounds.y;
-	bounds.bottom = bounds.y + bounds.height;
+	auto boundsXPos = position.x - (collider->bounds.width - 10) / 2;
+	auto boundsYPos = position.y - (collider->bounds.height - 10) / 2;
+	collider->UpdatePosition(boundsXPos, boundsYPos);
 }
 
 void Player::Render()
@@ -81,43 +77,53 @@ void Player::Render()
 	//dewcin::Renderer::DrawRectangle(bounds, { 0, 255, 0 });
 }
 
-void Player::OnCollision(GameObject* other)
+//void Player::OnCollision(GameObject* other)
+//{
+//	// Wall collision
+//	if (other->id == 3)
+//	{
+//		auto a = bounds;
+//		const auto& b = other->bounds;
+//		
+//		// Calculate x overlap
+//		int overlapLeft = b.right - a.left;
+//		int overlapRight = a.right - b.left;
+//		int overlapTop = b.bottom - a.top;
+//		int overlapBottom = a.bottom - b.top;
+//
+//		int xOverlap = (overlapLeft < overlapRight) ? -overlapLeft : overlapRight;
+//		int yOverlap = (overlapTop < overlapBottom) ? -overlapTop : overlapBottom;
+//
+//		if (std::abs(xOverlap) < std::abs(yOverlap))
+//		{
+//			position.x -= xOverlap;
+//			velocity.x = 0;
+//		}
+//		else
+//		{
+//			if (yOverlap == overlapBottom)
+//			{
+//				isGrounded = true;
+//				groundYPos = b.top + (b.height / 7);
+//			}
+//		}
+//	}
+//}
+
+void Player::OnCollisionEnter(GameObject* other)
 {
-	// Ground collision
 	if (other->id == 1)
 	{
 		isGrounded = true;
 		groundYPos = other->position.y;
 	}
+}
 
-	// Wall collision
-	if (other->id == 3)
+void Player::OnCollisionExit(GameObject* other)
+{
+	if (other->id == 1)
 	{
-		auto a = bounds;
-		const auto& b = other->bounds;
-		
-		// Calculate x overlap
-		int overlapLeft = b.right - a.left;
-		int overlapRight = a.right - b.left;
-		int overlapTop = b.bottom - a.top;
-		int overlapBottom = a.bottom - b.top;
-
-		int xOverlap = (overlapLeft < overlapRight) ? -overlapLeft : overlapRight;
-		int yOverlap = (overlapTop < overlapBottom) ? -overlapTop : overlapBottom;
-
-		if (std::abs(xOverlap) < std::abs(yOverlap))
-		{
-			position.x -= xOverlap;
-			velocity.x = 0;
-		}
-		else
-		{
-			if (yOverlap == overlapBottom)
-			{
-				isGrounded = true;
-				groundYPos = b.top + (b.height / 7);
-			}
-		}
+		isGrounded = false;
 	}
 }
 

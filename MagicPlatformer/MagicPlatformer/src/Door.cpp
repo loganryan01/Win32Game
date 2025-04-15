@@ -9,7 +9,9 @@ Door::Door(int xPos, int yPos, int scaleX, int scaleY, const dewcin::RGBColor& c
 	int boundsSizeY = 10 * scaleY;
 	auto boundsXPos = xPos - boundsSizeX / 2;
 	auto boundsYPos = yPos - boundsSizeY / 2;
-	bounds = { boundsXPos + 5, boundsYPos + 5, boundsSizeX, boundsSizeY };
+
+	auto colliderPtr = std::make_unique<Collider>(boundsXPos + 5, boundsYPos + 5, boundsSizeX, boundsSizeY);
+	collider = colliderPtr.get();
 
 	position = { xPos, yPos };
 	scale = { scaleX, scaleY };
@@ -27,16 +29,16 @@ void Door::Render()
 	dewcin::Renderer::FillTransformedRectangle({ 0, 0, 10, 10 }, doorMatrix, doorColor);
 }
 
-void Door::OnCollision(GameObject* other)
-{
-	// Player touches the door
-	if (other->id == 0)
-	{
-		// Load the next level
-		LevelManager& levelManager = LevelManager::GetInstance();
-		levelManager.SetCurrentLevel(levelName);
-	}
-}
+//void Door::OnCollision(GameObject* other)
+//{
+//	// Player touches the door
+//	if (other->id == 0)
+//	{
+//		// Load the next level
+//		LevelManager& levelManager = LevelManager::GetInstance();
+//		levelManager.SetCurrentLevel(levelName);
+//	}
+//}
 
 Matrix3x3 Door::getTransformationMatrix() const
 {

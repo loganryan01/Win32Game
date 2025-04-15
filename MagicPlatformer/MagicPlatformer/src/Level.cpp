@@ -52,13 +52,42 @@ void Level::DetectCollisions()
 
 	for (size_t i = 0; i < count; ++i)
 	{
-		for (size_t j = i + 1; j < count; ++j) 
+		auto obj = gameObjects[i].get();
+
+		if (!obj->collider) continue;
+
+		obj->collider->previousCollisions = obj->collider->currentCollisions;
+		obj->collider->currentCollisions.clear();
+		
+		for (size_t j = 0; j < count; ++j) 
 		{
-			if (gameObjects[i]->bounds.Intersects(gameObjects[j]->bounds))
+			auto other = gameObjects[j].get();
+			
+			if (obj == other || !other->collider) continue;
+
+			if (obj->collider->bounds.Intersects(other->collider->bounds))
 			{
-				// Notify both objects
-				gameObjects[i]->OnCollision(gameObjects[j].get());
-				gameObjects[j]->OnCollision(gameObjects[i].get());
+				obj->collider->currentCollisions.push_back(gameObjects[j]);
+				
+				if (std::find(obj->collider->previousCollisions.begin(), obj->collider->previousCollisions.end(), gameObjects[j]) == obj->collider->previousCollisions.end())
+				{
+					obj->OnCollisionEnter(other);
+				}
+				else
+				{
+					obj->OnCollisionStay(other);
+				}
+			}
+		}
+
+		size_t prevCount = obj->collider->previousCollisions.size();
+		for (size_t k = 0; k < prevCount; ++k)
+		{
+			auto prev = obj->collider->previousCollisions[k];
+
+			if (std::find(obj->collider->currentCollisions.begin(), obj->collider->currentCollisions.end(), prev) == obj->collider->currentCollisions.end())
+			{
+				obj->OnCollisionExit(prev.get());
 			}
 		}
 	}

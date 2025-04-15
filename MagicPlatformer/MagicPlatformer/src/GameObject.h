@@ -5,12 +5,15 @@
 
 #include "dewcin/renderer.h"
 #include "maths/Vector.h"
+#include "Collider.h"
 
 class GameObject
 {
 public:
 	int id;
 	dewcin::Rect bounds;
+
+	Collider* collider = nullptr;
 
 	// Transform
 	Vector2 position;
@@ -21,7 +24,18 @@ public:
 	virtual void Update(float delta) = 0;
 	virtual void Render() = 0;
 
-	virtual void OnCollision(GameObject* other) = 0;
+	virtual void OnCollisionEnter(GameObject* other) 
+	{ 
+		// EMPTY 
+	}
+	virtual void OnCollisionStay(GameObject* other) 
+	{
+		// EMPTY
+	}
+	virtual void OnCollisionExit(GameObject* other) 
+	{
+		// EMPTY
+	}
 };
 
 #endif

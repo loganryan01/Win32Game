@@ -14,7 +14,8 @@ public:
 	void Update(float delta) override;
 	void Render() override;
 
-	void OnCollision(GameObject* other) override;
+	void OnCollisionEnter(GameObject* other) override;
+	void OnCollisionExit(GameObject* other) override;
 
 private:
 	Matrix3x3 getTransformationMatrix() const;

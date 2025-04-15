@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Collider.h" />
     <ClInclude Include="src\Defs.h" />
     <ClInclude Include="src\Door.h" />
     <ClInclude Include="src\Platform.h" />
