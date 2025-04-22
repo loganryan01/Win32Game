@@ -15,8 +15,7 @@ Player::Player(int xPos, int yPos, int scaleX, int scaleY, const dewcin::RGBColo
 	int boundsSizeX = 10 * scaleX;
 	int boundsSizeY = 10 * scaleY;
 
-	auto colliderPtr = std::make_unique<Collider>(xPos, yPos, boundsSizeX, boundsSizeY);
-	collider = colliderPtr.get();
+	collider = std::make_unique<Collider>(xPos, yPos, boundsSizeX, boundsSizeY);
 
 	position = { xPos, yPos };
 	scale = { scaleX, scaleY };
@@ -34,11 +33,6 @@ void Player::Update(float delta)
 		{
 			velocity.y = MAX_FALL_SPEED;
 		}
-	}
-	else
-	{
-		position.y = groundYPos - 10 * scale.y;
-		velocity.y = 0; // Stop falling when on the ground
 	}
 		
 	// Update player's position
@@ -74,7 +68,7 @@ void Player::Render()
 	Matrix3x3 playerMatrix = getTransformationMatrix();
 	
 	dewcin::Renderer::FillTransformedRectangle({ 0, 0, 10, 10 }, playerMatrix, playerColor);
-	//dewcin::Renderer::DrawRectangle(bounds, { 0, 255, 0 });
+	//dewcin::Renderer::DrawRectangle(collider.get()->bounds, { 0, 255, 0 });
 }
 
 //void Player::OnCollision(GameObject* other)
@@ -112,10 +106,11 @@ void Player::Render()
 
 void Player::OnCollisionEnter(GameObject* other)
 {
-	if (other->id == 1)
+	if (other->id == 1 && velocity.y > 0)
 	{
 		isGrounded = true;
-		groundYPos = other->position.y;
+		position.y = other->collider.get()->bounds.top - ((collider.get()->bounds.height / 2) + 4);
+		velocity.y = 0; // Stop falling when on the ground
 	}
 }
 

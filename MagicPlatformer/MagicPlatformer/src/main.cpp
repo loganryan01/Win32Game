@@ -3,7 +3,7 @@
 
 /////////////////////////////////////////////////////////
 // To do list:
-// - Fix player hovering above wall
+// - Restore collision logic for player colliding with wall and player colliding with door
 // - Create destructor for UI Manager
 /////////////////////////////////////////////////////////
 

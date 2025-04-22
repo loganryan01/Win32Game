@@ -13,7 +13,7 @@ public:
 	int id;
 	dewcin::Rect bounds;
 
-	Collider* collider = nullptr;
+	std::unique_ptr<Collider> collider;
 
 	// Transform
 	Vector2 position;

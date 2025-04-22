@@ -10,8 +10,7 @@ Door::Door(int xPos, int yPos, int scaleX, int scaleY, const dewcin::RGBColor& c
 	auto boundsXPos = xPos - boundsSizeX / 2;
 	auto boundsYPos = yPos - boundsSizeY / 2;
 
-	auto colliderPtr = std::make_unique<Collider>(boundsXPos + 5, boundsYPos + 5, boundsSizeX, boundsSizeY);
-	collider = colliderPtr.get();
+	collider = std::make_unique<Collider>(boundsXPos + 5, boundsYPos + 5, boundsSizeX, boundsSizeY);
 
 	position = { xPos, yPos };
 	scale = { scaleX, scaleY };
