@@ -29,11 +29,6 @@ void Platform::Render()
 	//dewcin::Renderer::DrawRectangle(collider->bounds, { 255, 255, 0 });
 }
 
-//void Platform::OnCollision(GameObject* other)
-//{
-//	// Empty
-//}
-
 Matrix3x3 Platform::getTransformationMatrix() const
 {
 	Matrix3x3 translation = Matrix3x3::translate(position.x, position.y);

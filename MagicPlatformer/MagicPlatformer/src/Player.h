@@ -1,11 +1,11 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#define NOMINMAX
+
 #include "GameObject.h"
-#include "dewcin/renderer.h"
 #include "dewcin/input.h"
 #include "maths/Matrix.h"
-#include "maths/Vector.h"
 
 class Player : public GameObject
 {
@@ -15,6 +15,7 @@ public:
 	void Render() override;
 
 	void OnCollisionEnter(GameObject* other) override;
+	void OnCollisionStay(GameObject* other) override;
 	void OnCollisionExit(GameObject* other) override;
 
 private:

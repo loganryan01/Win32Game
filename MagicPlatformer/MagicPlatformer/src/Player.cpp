@@ -1,6 +1,7 @@
 #include "Player.h"
 #include <string>
 #include <memory>
+#include <algorithm>
 
 const int GRAVITY = 1;          // Increase gravity for faster fall
 const int MAX_FALL_SPEED = 7; // Lower max fall speed for smoother landings
@@ -71,46 +72,57 @@ void Player::Render()
 	//dewcin::Renderer::DrawRectangle(collider.get()->bounds, { 0, 255, 0 });
 }
 
-//void Player::OnCollision(GameObject* other)
-//{
-//	// Wall collision
-//	if (other->id == 3)
-//	{
-//		auto a = bounds;
-//		const auto& b = other->bounds;
-//		
-//		// Calculate x overlap
-//		int overlapLeft = b.right - a.left;
-//		int overlapRight = a.right - b.left;
-//		int overlapTop = b.bottom - a.top;
-//		int overlapBottom = a.bottom - b.top;
-//
-//		int xOverlap = (overlapLeft < overlapRight) ? -overlapLeft : overlapRight;
-//		int yOverlap = (overlapTop < overlapBottom) ? -overlapTop : overlapBottom;
-//
-//		if (std::abs(xOverlap) < std::abs(yOverlap))
-//		{
-//			position.x -= xOverlap;
-//			velocity.x = 0;
-//		}
-//		else
-//		{
-//			if (yOverlap == overlapBottom)
-//			{
-//				isGrounded = true;
-//				groundYPos = b.top + (b.height / 7);
-//			}
-//		}
-//	}
-//}
-
 void Player::OnCollisionEnter(GameObject* other)
 {
 	if (other->id == 1 && velocity.y > 0)
 	{
 		isGrounded = true;
-		position.y = other->collider.get()->bounds.top - ((collider.get()->bounds.height / 2) + 4);
+		position.y = other->collider.get()->bounds.GetTop() - ((collider.get()->bounds.height / 2) + 4);
 		velocity.y = 0; // Stop falling when on the ground
+	}
+}
+
+void Player::OnCollisionStay(GameObject* other)
+{
+	if (other->id == 3)
+	{
+		auto a = collider.get()->bounds;
+		const auto& b = other->collider.get()->bounds;
+
+		int xOverlap = std::min(a.GetRight(), b.GetRight()) - std::min(a.GetLeft(), b.GetLeft());
+		int yOverlap = std::min(a.GetBottom(), b.GetBottom()) - std::min(a.GetTop(), b.GetTop());
+
+		if (xOverlap > 0 && yOverlap > 0)
+		{
+			if (xOverlap < yOverlap)
+			{
+				// Horizontal Collision (wall)
+				if ((a.GetLeft() + a.width / 2) < (b.GetLeft() + b.width / 2))
+				{
+					position.x -= 1;
+				}
+				else
+				{
+					position.x += 1;
+				}
+
+				velocity.x = 0;
+			}
+			else
+			{
+				// Vertical Collision (ground or ceiling)
+				if (velocity.y > 0)
+				{
+					position.y -= 35;
+					isGrounded = true;
+					velocity.y = 0;
+				}
+				else if (velocity.y < 0)
+				{
+					velocity.y = 0;
+				}
+			}
+		}
 	}
 }
 
@@ -119,6 +131,23 @@ void Player::OnCollisionExit(GameObject* other)
 	if (other->id == 1)
 	{
 		isGrounded = false;
+	}
+
+	if (other->id == 3)
+	{
+		auto a = collider.get()->bounds;
+		const auto& b = other->collider.get()->bounds;
+
+		int xOverlap = std::min(a.GetRight(), b.GetRight()) - std::min(a.GetLeft(), b.GetLeft());
+		int yOverlap = std::min(a.GetBottom(), b.GetBottom()) - std::min(a.GetTop(), b.GetTop());
+
+		if (xOverlap > 0 && yOverlap > 0)
+		{
+			if (!(xOverlap < yOverlap))
+			{
+				isGrounded = false;
+			}
+		}
 	}
 }
 

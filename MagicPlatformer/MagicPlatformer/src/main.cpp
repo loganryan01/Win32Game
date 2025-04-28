@@ -3,7 +3,8 @@
 
 /////////////////////////////////////////////////////////
 // To do list:
-// - Restore collision logic for player colliding with wall and player colliding with door
+// - Restore collision logic for player colliding with door
+// - Fix collision resolution when player is jumping while against the wall
 // - Create destructor for UI Manager
 /////////////////////////////////////////////////////////
 

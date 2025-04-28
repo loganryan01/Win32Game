@@ -11,8 +11,6 @@ class GameObject
 {
 public:
 	int id;
-	dewcin::Rect bounds;
-
 	std::unique_ptr<Collider> collider;
 
 	// Transform
