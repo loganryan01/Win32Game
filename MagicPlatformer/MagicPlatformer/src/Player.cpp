@@ -80,10 +80,7 @@ void Player::OnCollisionEnter(GameObject* other)
 		position.y = other->collider.get()->bounds.GetTop() - ((collider.get()->bounds.height / 2) + 4);
 		velocity.y = 0; // Stop falling when on the ground
 	}
-}
 
-void Player::OnCollisionStay(GameObject* other)
-{
 	if (other->id == 3)
 	{
 		auto a = collider.get()->bounds;
@@ -108,22 +105,13 @@ void Player::OnCollisionStay(GameObject* other)
 
 				velocity.x = 0;
 			}
-			else
-			{
-				// Vertical Collision (ground or ceiling)
-				if (velocity.y > 0)
-				{
-					position.y -= 35;
-					isGrounded = true;
-					velocity.y = 0;
-				}
-				else if (velocity.y < 0)
-				{
-					velocity.y = 0;
-				}
-			}
 		}
 	}
+}
+
+void Player::OnCollisionStay(GameObject* other)
+{
+	// Empty
 }
 
 void Player::OnCollisionExit(GameObject* other)

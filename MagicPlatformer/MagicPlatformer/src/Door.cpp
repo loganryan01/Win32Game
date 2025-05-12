@@ -28,16 +28,16 @@ void Door::Render()
 	dewcin::Renderer::FillTransformedRectangle({ 0, 0, 10, 10 }, doorMatrix, doorColor);
 }
 
-//void Door::OnCollision(GameObject* other)
-//{
-//	// Player touches the door
-//	if (other->id == 0)
-//	{
-//		// Load the next level
-//		LevelManager& levelManager = LevelManager::GetInstance();
-//		levelManager.SetCurrentLevel(levelName);
-//	}
-//}
+void Door::OnCollisionEnter(GameObject* other)
+{
+	// Player touches the door
+	if (other->id == 0)
+	{
+		// Load the next level
+		LevelManager& levelManager = LevelManager::GetInstance();
+		levelManager.SetCurrentLevel(levelName);
+	}
+}
 
 Matrix3x3 Door::getTransformationMatrix() const
 {

@@ -3,8 +3,7 @@
 
 /////////////////////////////////////////////////////////
 // To do list:
-// - Restore collision logic for player colliding with door
-// - Fix collision resolution when player is jumping while against the wall
+// - Redraw Room 2 (Learning how to Jump)
 // - Create destructor for UI Manager
 /////////////////////////////////////////////////////////
 
