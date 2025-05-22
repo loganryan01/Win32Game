@@ -3,7 +3,7 @@
 
 /////////////////////////////////////////////////////////
 // To do list:
-// - Redraw Room 2 (Learning how to Jump)
+// - Create Room 3 (Prize Room)
 // - Create destructor for UI Manager
 /////////////////////////////////////////////////////////
 
@@ -51,10 +51,11 @@ dewcin_app_entry_point
 
 	auto level2 = std::make_shared<Level>(LEVEL_TWO_NAME);
 	level2->AddGameObject(std::make_shared<Player>(80, 645, 5, 5, RED, 0));
-	level2->AddGameObject(std::make_shared<Platform>(635, 690, 128, 5, BLACK, 1)); // Floor
+	level2->AddGameObject(std::make_shared<Platform>(220, 690, 46, 5, BLACK, 1)); // Floor
+	level2->AddGameObject(std::make_shared<Platform>(635, 620, 28, 5, BLACK, 1)); // Platform
+	level2->AddGameObject(std::make_shared<Platform>(1050, 690, 46, 5, BLACK, 1)); // Floor
 	level2->AddGameObject(std::make_shared<Platform>(20, 285, 5, 58, BLACK, 3)); // Wall
 	level2->AddGameObject(std::make_shared<Platform>(1250, 285, 5, 58, BLACK, 3)); // Wall
-	level2->AddGameObject(std::make_shared<Platform>(635, 595, 5, 14, BLACK, 3)); // Obstacle
 	level2->AddGameObject(std::make_shared<Platform>(635, 20, 118, 5, BLACK, 3)); // Roof
 	level2->AddGameObject(std::make_shared<Door>(20, 620, 5, 9, WHITE, LEVEL_ONE_NAME, 2));
 	level2->AddGameObject(std::make_shared<Door>(1250, 620, 5, 9, WHITE, LEVEL_TWO_NAME, 2));
