@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Collectable.h" />
     <ClInclude Include="src\Collider.h" />
     <ClInclude Include="src\Defs.h" />
     <ClInclude Include="src\Door.h" />
@@ -144,6 +145,7 @@
     <ClInclude Include="src\UIManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Collectable.cpp" />
     <ClCompile Include="src\Door.cpp" />
     <ClCompile Include="src\Platform.cpp" />
     <ClCompile Include="src\dewcin\game.cpp" />

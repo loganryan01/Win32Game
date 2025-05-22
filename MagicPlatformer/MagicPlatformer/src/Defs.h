@@ -8,8 +8,10 @@ const std::string JUMP_TEXT = "'SPACE' = JUMP";
 
 const std::string LEVEL_ONE_NAME = "Level 1";
 const std::string LEVEL_TWO_NAME = "Level 2";
+const std::string LEVEL_THREE_NAME = "Level 3";
 
 // Colors
 const dewcin::RGBColor& RED = { 255, 0, 0 };
 const dewcin::RGBColor& BLACK = { 0, 0, 0 };
 const dewcin::RGBColor& WHITE = { 255, 255, 255 };
+const dewcin::RGBColor& GREEN = { 0, 255, 0 };

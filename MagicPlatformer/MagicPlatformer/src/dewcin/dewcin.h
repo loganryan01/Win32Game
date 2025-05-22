@@ -13,5 +13,6 @@
 #include "Player.h"
 #include "Platform.h"
 #include "Door.h"
+#include "Collectable.h"
 
 #define dewcin_app_entry_point INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, INT nCmdShow)

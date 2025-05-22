@@ -96,6 +96,11 @@ namespace dewcin
 		return result;
 	}
 
+	void Game::StopWindow()
+	{
+		running = false;
+	}
+
 	void Game::StartWindow()
 	{
 		Renderer::ResizeFrameBuffer(windowWidth, windowHeight);

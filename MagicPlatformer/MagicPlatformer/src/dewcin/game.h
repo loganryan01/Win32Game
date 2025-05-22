@@ -58,7 +58,13 @@ namespace dewcin
 		inline static int getWindowWidth() { return getInstance().windowWidth; }
 		inline static int getWindowHeight() { return getInstance().windowHeight; }
 
+		inline static void Stop()
+		{
+			getInstance().StopWindow();
+		};
+
 	private:
 		void StartWindow();
+		void StopWindow();
 	};
 }
